@@ -41,9 +41,8 @@ public class Course {
         setEnrolled(0);
     }
 
-    public Course(String classNumber, String courseName, String section, String startTime,
-                  String days, String endTime, String room, int enrollCapacity, String professor,
-                  int enrolled) {
+    public Course(String classNumber, String courseName, String section, String days, String startTime,
+                  String endTime, String room, String professor, int enrollCapacity, int enrolled) {
         this.classNumber = classNumber;
         this.courseName = courseName;
         this.section = section;

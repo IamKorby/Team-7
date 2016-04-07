@@ -1,5 +1,6 @@
 package com.example.avggo.d_enlist;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,10 +28,13 @@ public class DatabaseOpenHelper  extends SQLiteOpenHelper{
                 Course.COLUMN_END_TIME + " TEXT, " +
                 Course.COLUMN_ROOM + " TEXT, " +
                 Course.COLUMN_PROFESSOR + " TEXT, " +
-                Course.COLUMN_ENROLL_CAPACITY + " TEXT, " +
-                Course.COLUMN_ENROLLED + " TEXT);";
+                Course.COLUMN_ENROLL_CAPACITY + " INTEGER, " +
+                Course.COLUMN_ENROLLED + " INTEGER);";
 
         db.execSQL(sql);
+
+        insertCourse(new Course("367", "COMPRO1", "S17A", "MW", "9:15", "10:45", "G302A", "LIMOANGCO, TESSIE", 25, 0));
+        insertCourse(new Course("367", "COMPRO1", "S17B", "MW", "9:15", "10:45", "G302A", "SALVADOR, FLORANTE", 25, 0));
     }
 
     public Course queryCourse(String classNumber) {
@@ -74,6 +78,24 @@ public class DatabaseOpenHelper  extends SQLiteOpenHelper{
         Cursor c = db.query(Course.TABLE_NAME, null, null, null, null, null, null);
 
         return c;
+    }
+
+    public long insertCourse(Course c) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(Course.COLUMN_CLASS_NUMBER, c.getClassNumber());
+        cv.put(Course.COLUMN_COURSE_NAME, c.getCourseName());
+        cv.put(Course.COLUMN_SECTION, c.getSection());
+        cv.put(Course.COLUMN_DAYS, c.getDays());
+        cv.put(Course.COLUMN_START_TIME, c.getStartTime());
+        cv.put(Course.COLUMN_END_TIME, c.getEndTime());
+        cv.put(Course.COLUMN_ROOM, c.getRoom());
+        cv.put(Course.COLUMN_PROFESSOR, c.getProfessor());
+        cv.put(Course.COLUMN_ENROLL_CAPACITY, c.getEnrollCapacity());
+        cv.put(Course.COLUMN_ENROLLED, c.getEnrolled());
+
+        return db.insert(Course.TABLE_NAME, null, cv);
     }
 
     @Override
